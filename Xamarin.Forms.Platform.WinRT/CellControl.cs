@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Threading;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation.Peers;
@@ -43,14 +45,17 @@ namespace Xamarin.Forms.Platform.WinRT
 
 			Unloaded += (sender, args) =>
 			{
+				//Debug.WriteLine($">>>>> CellControl CellControl 47: Unloading");
 				if (Cell != null)
 					Cell.SendDisappearing();
 			};
 
 			_propertyChangedHandler = OnCellPropertyChanged;
-		}
 
-		public Cell Cell
+			Debug.WriteLine($">>>>> CellControl Constructor, count is: {Interlocked.Increment(ref s_count)}");
+		}
+								
+		public Cell Cell		
 		{
 			get { return (Cell)GetValue(CellProperty); }
 			set { SetValue(CellProperty, value); }
@@ -173,9 +178,9 @@ namespace Xamarin.Forms.Platform.WinRT
 			// set on MeasureOverrideDelegate. However, if the parent is a TableView, we'll already 
 			// have a complete Cell object to work with, so we can move ahead.
 			if (_isListViewRealized || args.NewValue is Cell)
-				SetCell(args.NewValue, sender as CellControl);
-			else if (args.NewValue != null)
-				_newValue = args.NewValue;
+					SetCell(args.NewValue, sender as CellControl);
+				else if (args.NewValue != null)
+					_newValue = args.NewValue;
 		}
 
 		void OnLongTap(object sender, HoldingRoutedEventArgs e)
@@ -326,7 +331,7 @@ namespace Xamarin.Forms.Platform.WinRT
 		protected override AutomationPeer OnCreateAutomationPeer()
 		{
 			return new FrameworkElementAutomationPeer(this);
-    }
+    	}
 
 		void UpdateFlowDirection(Cell newCell)
 		{
@@ -335,5 +340,7 @@ namespace Xamarin.Forms.Platform.WinRT
 
 			this.UpdateFlowDirection(newCell.Parent as VisualElement);
 		}
+		
+		
 	}
 }

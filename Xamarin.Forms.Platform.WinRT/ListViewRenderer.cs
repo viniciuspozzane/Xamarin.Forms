@@ -157,6 +157,7 @@ namespace Xamarin.Forms.Platform.WinRT
 				}
 				List.SelectionChanged -= OnControlSelectionChanged;
 
+				Debug.WriteLine($">>>>> ListViewRenderer Dispose 142: Setting the list datacontext to null");
 				List.DataContext = null;
 				List = null;
 			}
