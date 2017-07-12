@@ -45,14 +45,10 @@ namespace Xamarin.Forms.Platform.WinRT
 
 			Unloaded += (sender, args) =>
 			{
-				//Debug.WriteLine($">>>>> CellControl CellControl 47: Unloading");
-				if (Cell != null)
-					Cell.SendDisappearing();
+				Cell?.SendDisappearing();
 			};
 
 			_propertyChangedHandler = OnCellPropertyChanged;
-
-			Debug.WriteLine($">>>>> CellControl Constructor, count is: {Interlocked.Increment(ref s_count)}");
 		}
 								
 		public Cell Cell		
@@ -179,8 +175,8 @@ namespace Xamarin.Forms.Platform.WinRT
 			// have a complete Cell object to work with, so we can move ahead.
 			if (_isListViewRealized || args.NewValue is Cell)
 					SetCell(args.NewValue, sender as CellControl);
-				else if (args.NewValue != null)
-					_newValue = args.NewValue;
+			else if (args.NewValue != null)
+				_newValue = args.NewValue;
 		}
 
 		void OnLongTap(object sender, HoldingRoutedEventArgs e)
@@ -327,7 +323,6 @@ namespace Xamarin.Forms.Platform.WinRT
 
 			((FrameworkElement)Content).DataContext = newCell;
 		}
-
 		protected override AutomationPeer OnCreateAutomationPeer()
 		{
 			return new FrameworkElementAutomationPeer(this);
