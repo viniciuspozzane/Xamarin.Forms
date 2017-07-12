@@ -173,7 +173,7 @@ namespace Xamarin.Forms.Platform.WinRT
 			// set on MeasureOverrideDelegate. However, if the parent is a TableView, we'll already 
 			// have a complete Cell object to work with, so we can move ahead.
 			if (_isListViewRealized || args.NewValue is Cell)
-				SetCell(args.NewValue);
+				SetCell(args.NewValue, sender as CellControl);
 			else if (args.NewValue != null)
 				_newValue = args.NewValue;
 		}
@@ -182,11 +182,6 @@ namespace Xamarin.Forms.Platform.WinRT
 		{
 			if (e.HoldingState == HoldingState.Started)
 				OpenContextMenu();
-		}
-
-		void OnOpenContext(object sender, RightTappedRoutedEventArgs e)
-		{
-			FlyoutBase.ShowAttachedFlyout(CellContent);
 		}
 
 		void OpenContextMenu()
@@ -205,7 +200,7 @@ namespace Xamarin.Forms.Platform.WinRT
 			FlyoutBase.ShowAttachedFlyout(CellContent);
 		}
 
-		void SetCell(object newContext)
+		void SetCell(object newContext, CellControl cellControl = null)
 		{
 			var cell = newContext as Cell;
 
@@ -228,7 +223,14 @@ namespace Xamarin.Forms.Platform.WinRT
 
 				if (template != null)
 				{
-					cell = template.CreateContent() as Cell;
+					if (cellControl?.Cell != null)
+					{
+						cell = cellControl.Cell;
+					}
+					else
+					{
+						cell = template.CreateContent() as Cell;
+					}
 				}
 				else
 				{
