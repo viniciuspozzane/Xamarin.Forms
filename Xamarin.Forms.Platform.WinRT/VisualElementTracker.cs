@@ -46,18 +46,7 @@ namespace Xamarin.Forms.Platform.WinRT
 				if (_container == value)
 					return;
 
-				if (_container != null)
-				{
-					_container.Tapped -= OnTap;
-					_container.DoubleTapped -= OnDoubleTap;
-					_container.ManipulationDelta -= OnManipulationDelta;
-					_container.ManipulationStarted -= OnManipulationStarted;
-					_container.ManipulationCompleted -= OnManipulationCompleted;
-					_container.PointerPressed -= OnPointerPressed;
-					_container.PointerExited -= OnPointerExited;
-					_container.PointerReleased -= OnPointerReleased;
-					_container.PointerCanceled -= OnPointerCanceled;
-				}
+				ClearContainerEventHandlers();
 
 				_container = value;
 
@@ -141,6 +130,22 @@ namespace Xamarin.Forms.Platform.WinRT
 
 		public event EventHandler Updated;
 
+		void ClearContainerEventHandlers()
+		{
+			if (_container != null)
+			{
+				_container.Tapped -= OnTap;
+				_container.DoubleTapped -= OnDoubleTap;
+				_container.ManipulationDelta -= OnManipulationDelta;
+				_container.ManipulationStarted -= OnManipulationStarted;
+				_container.ManipulationCompleted -= OnManipulationCompleted;
+				_container.PointerPressed -= OnPointerPressed;
+				_container.PointerExited -= OnPointerExited;
+				_container.PointerReleased -= OnPointerReleased;
+				_container.PointerCanceled -= OnPointerCanceled;
+			}
+		}
+
 		protected virtual void Dispose(bool disposing)
 		{
 			if (_isDisposed)
@@ -151,18 +156,7 @@ namespace Xamarin.Forms.Platform.WinRT
 			if (!disposing)
 				return;
 
-			if (_container != null)
-			{
-				_container.PointerPressed -= OnPointerPressed;
-				_container.PointerExited -= OnPointerExited;
-				_container.PointerReleased -= OnPointerReleased;
-				_container.PointerCanceled -= OnPointerCanceled;
-				_container.Tapped -= OnTap;
-				_container.DoubleTapped -= OnDoubleTap;
-				_container.ManipulationDelta -= OnManipulationDelta;
-				_container.ManipulationStarted -= OnManipulationStarted;
-				_container.ManipulationCompleted -= OnManipulationCompleted;
-			}
+			ClearContainerEventHandlers();
 
 			if (_element != null)
 			{
@@ -535,15 +529,7 @@ namespace Xamarin.Forms.Platform.WinRT
 			if (_container == null || gestures == null)
 				return;
 
-			_container.Tapped -= OnTap;
-			_container.DoubleTapped -= OnDoubleTap;
-			_container.ManipulationDelta -= OnManipulationDelta;
-			_container.ManipulationStarted -= OnManipulationStarted;
-			_container.ManipulationCompleted -= OnManipulationCompleted;
-			_container.PointerPressed -= OnPointerPressed;
-			_container.PointerExited -= OnPointerExited;
-			_container.PointerReleased -= OnPointerReleased;
-			_container.PointerCanceled -= OnPointerCanceled;
+			ClearContainerEventHandlers();
 
 			if (gestures.GetGesturesFor<TapGestureRecognizer>(g => g.NumberOfTapsRequired == 1).Any())
 			{
