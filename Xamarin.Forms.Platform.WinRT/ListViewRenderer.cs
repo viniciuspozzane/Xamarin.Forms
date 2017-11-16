@@ -33,7 +33,7 @@ namespace Xamarin.Forms.Platform.WinRT
 		bool _itemWasClicked;
 		bool _subscribedToItemClick;
 		bool _subscribedToTapped;
-
+		bool _disposed;
 
 #if !WINDOWS_UWP
 		public static readonly DependencyProperty HighlightWhenSelectedProperty = DependencyProperty.RegisterAttached("HighlightWhenSelected", typeof(bool), typeof(ListViewRenderer),
@@ -85,7 +85,7 @@ namespace Xamarin.Forms.Platform.WinRT
 				}
 
 				// WinRT throws an exception if you set ItemsSource directly to a CVS, so bind it.
-				List.DataContext = new CollectionViewSource { Source = TemplatedItemsView.TemplatedItems, IsSourceGrouped = Element.IsGroupingEnabled };
+				List.DataContext = new CollectionViewSource { Source = Element.ItemsSource, IsSourceGrouped = Element.IsGroupingEnabled };
 
 #if !WINDOWS_UWP
 				var selected = Element.SelectedItem;
@@ -142,27 +142,37 @@ namespace Xamarin.Forms.Platform.WinRT
 
 		protected override void Dispose(bool disposing)
 		{
-			if (List != null)
+			if (_disposed)
 			{
-				if (_subscribedToTapped)
-				{
-					_subscribedToTapped = false;
-					List.Tapped -= ListOnTapped;
-				}
-				if (_subscribedToItemClick)
-				{
-					_subscribedToItemClick = false;
-					List.ItemClick -= OnListItemClicked;
-				}
-				List.SelectionChanged -= OnControlSelectionChanged;
-				List.DataContext = null;
-				List = null;
+				return;
 			}
 
-			if (_zoom != null)
+			_disposed = true;
+
+			if (disposing)
 			{
-				_zoom.ViewChangeCompleted -= OnViewChangeCompleted;
-				_zoom = null;
+				if (List != null)
+				{
+					if (_subscribedToTapped)
+					{
+						_subscribedToTapped = false;
+						List.Tapped -= ListOnTapped;
+					}
+					if (_subscribedToItemClick)
+					{
+						_subscribedToItemClick = false;
+						List.ItemClick -= OnListItemClicked;
+					}
+					List.SelectionChanged -= OnControlSelectionChanged;
+					List.DataContext = null;
+					List = null;
+				}
+
+				if (_zoom != null)
+				{
+					_zoom.ViewChangeCompleted -= OnViewChangeCompleted;
+					_zoom = null;
+				}
 			}
 
 			base.Dispose(disposing);

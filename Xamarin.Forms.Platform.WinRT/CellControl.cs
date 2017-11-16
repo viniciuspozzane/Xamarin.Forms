@@ -228,13 +228,15 @@ namespace Xamarin.Forms.Platform.WinRT
 
 				if (template != null)
 				{
-					if (cellControl?.Cell != null)
+					if (lv.IsGroupingEnabled)
 					{
-						cell = cellControl.Cell;
+						cell = isGroupHeader 
+							? RealizeGroupedHeaderTemplate(lv.TemplatedItems, template, newContext) 
+							: RealizeGroupedItemTemplate(lv.TemplatedItems, template, newContext);
 					}
 					else
 					{
-						cell = template.CreateContent() as Cell;
+						cell = RealizeItemTemplate(lv.TemplatedItems, template, newContext);
 					}
 				}
 				else
@@ -254,7 +256,7 @@ namespace Xamarin.Forms.Platform.WinRT
 
 				// This provides the Group Header styling (e.g., larger font, etc.) when the
 				// template is loaded later.
-				cell.SetIsGroupHeader<ItemsView<Cell>, Cell>(isGroupHeader);
+				CellExtensions.SetIsGroupHeader<ItemsView<Cell>, Cell>(cell, isGroupHeader);
 			}
 
 			Cell = cell;
@@ -327,6 +329,7 @@ namespace Xamarin.Forms.Platform.WinRT
 
 			((FrameworkElement)Content).DataContext = newCell;
 		}
+		
 		protected override AutomationPeer OnCreateAutomationPeer()
 		{
 			return new FrameworkElementAutomationPeer(this);
@@ -339,7 +342,43 @@ namespace Xamarin.Forms.Platform.WinRT
 
 			this.UpdateFlowDirection(newCell.Parent as VisualElement);
 		}
-		
-		
+
+		static Cell RealizeGroupedHeaderTemplate(TemplatedItemsList<ItemsView<Cell>, Cell> templatedItems, 
+			ElementTemplate template, object context)
+		{
+			var index = templatedItems.GetGlobalIndexOfGroup(context);
+			if (index > -1)
+			{
+				return templatedItems[index];
+			}
+
+			return template.CreateContent() as Cell;
+		}
+
+		static Cell RealizeGroupedItemTemplate(ITemplatedItemsList<Cell> templatedItems, 
+			ElementTemplate template, object context)
+		{
+			var indices = templatedItems.GetGroupAndIndexOfItem(context);
+
+			if (indices.Item1 > -1 && indices.Item2 > -1)
+			{
+				var group = templatedItems.GetGroup(indices.Item1);
+				return group[indices.Item2];
+			}
+
+			return template.CreateContent() as Cell;
+		}
+
+		static Cell RealizeItemTemplate(ITemplatedItemsList<Cell> templatedItems, 
+			ElementTemplate template, object context)
+		{
+			var index = templatedItems.GetGlobalIndexOfItem(context);
+			if (index > -1)
+			{
+				return templatedItems[index];
+			}
+
+			return template.CreateContent() as Cell;
+		}
 	}
 }
