@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -372,7 +372,8 @@ namespace Xamarin.Forms.Maps.MacOS
 					break;
 				case NotifyCollectionChangedAction.Reset:
 					var mapView = (MKMapView)Control;
-					mapView.RemoveAnnotations(mapView.Annotations);
+					if (mapView.Annotations?.Length > 0)
+						mapView.RemoveAnnotations(mapView.Annotations);
 					AddPins((IList)(Element as Map).Pins);
 					break;
 				case NotifyCollectionChangedAction.Move:

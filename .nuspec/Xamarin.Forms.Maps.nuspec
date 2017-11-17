@@ -62,16 +62,24 @@
   </metadata>
   <files>
     <file src="..\Xamarin.Forms.Maps\bin\$Configuration$\Xamarin.Forms.Maps.dll" target="lib\portable-win+net45+wp80+win81+wpa81" />
+    <file src="..\Xamarin.Forms.Maps\bin\$Configuration$\Xamarin.Forms.Maps.*pdb" target="lib\portable-win+net45+wp80+win81+wpa81" />
     <file src="..\Xamarin.Forms.Maps\bin\$Configuration$\Xamarin.Forms.Maps.dll" target="lib\netstandard1.0" />
+    <file src="..\Xamarin.Forms.Maps\bin\$Configuration$\Xamarin.Forms.Maps.*pdb" target="lib\netstandard1.0" />
     <file src="..\docs\Xamarin.Forms.Maps.xml" target="lib\portable-win+net45+wp80+win81+wpa81" />
     <file src="..\docs\Xamarin.Forms.Maps.xml" target="lib\netstandard1.0" />
 
     <file src="..\Xamarin.Forms.Maps.Android\bin\$Configuration$\Xamarin.Forms.Maps.Android.dll" target="lib\MonoAndroid10" />
+    <file src="..\Xamarin.Forms.Maps.Android\bin\$Configuration$\Xamarin.Forms.Maps.Android.*pdb" target="lib\MonoAndroid10" />
     <file src="..\Xamarin.Forms.Maps\bin\$Configuration$\Xamarin.Forms.Maps.dll" target="lib\MonoAndroid10" />
+    <file src="..\Xamarin.Forms.Maps\bin\$Configuration$\Xamarin.Forms.Maps.*pdb" target="lib\MonoAndroid10" />
     <file src="..\docs\Xamarin.Forms.Maps.xml" target="lib\MonoAndroid10" />
 
     <file src="..\Xamarin.Forms.Maps.iOS\bin\iPhoneSimulator\$Configuration$\Xamarin.Forms.Maps.iOS.dll" target="lib\Xamarin.iOS10" />
+    <file src="..\Xamarin.Forms.Maps.iOS\bin\iPhoneSimulator\$Configuration$\Xamarin.Forms.Maps.iOS.*pdb" target="lib\Xamarin.iOS10" />
+    <file src="..\Xamarin.Forms.Maps.iOS\bin\iPhoneSimulator\$Configuration$\Xamarin.Forms.Maps.iOS.*mdb" target="lib\Xamarin.iOS10" />
     <file src="..\Xamarin.Forms.Maps\bin\$Configuration$\Xamarin.Forms.Maps.dll" target="lib\Xamarin.iOS10" />
+    <file src="..\Xamarin.Forms.Maps\bin\$Configuration$\Xamarin.Forms.Maps.*mdb" target="lib\Xamarin.iOS10" />
+    <file src="..\Xamarin.Forms.Maps\bin\$Configuration$\Xamarin.Forms.Maps.*pdb" target="lib\Xamarin.iOS10" />
     <file src="..\docs\Xamarin.Forms.Maps.xml" target="lib\Xamarin.iOS10" />
 
     <!--UWP-->
