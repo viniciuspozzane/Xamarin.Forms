@@ -492,6 +492,8 @@
     <Compile Include="IBorderElement.cs" />
     <Compile Include="BorderElement.cs" />
     <Compile Include="StyleSheets\StyleSheetExtensions.cs" />
+    <Compile Include="StyleSheets\StyleSheetServiceProvider.cs" />
+    <Compile Include="IConverterOptions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
