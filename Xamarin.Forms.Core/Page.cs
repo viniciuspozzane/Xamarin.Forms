@@ -210,7 +210,8 @@ namespace Xamarin.Forms
 		protected override void OnBindingContextChanged()
 		{
 			base.OnBindingContextChanged();
-			foreach (ToolbarItem toolbarItem in ToolbarItems)
+			var toolBarItems = new List<ToolbarItem>(ToolbarItems);
+			foreach (ToolbarItem toolbarItem in toolBarItems)
 			{
 				SetInheritedBindingContext(toolbarItem, BindingContext);
 			}
